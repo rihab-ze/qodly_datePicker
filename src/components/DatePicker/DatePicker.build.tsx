@@ -1,7 +1,7 @@
 import { useEnhancedNode } from '@ws-ui/webform-editor';
 import cn from 'classnames';
 import { FC, useEffect, useState } from 'react';
-import { languages } from './months';
+import { languages } from './utils/data';
 import { chunkArray } from './utils/func';
 
 import { IDatePickerProps } from './DatePicker.config';
