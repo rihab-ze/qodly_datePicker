@@ -22,7 +22,7 @@ const commonSettings: TSetting[] = [
     defaultValue: false,
   },
   {
-    key: 'selectedMonthColor',
+    key: 'selectedYearColor',
     label: 'selected date(s) color',
     type: ESetting.COLOR_PICKER,
   },
@@ -32,16 +32,9 @@ const commonSettings: TSetting[] = [
     type: ESetting.COLOR_PICKER,
   },
   {
-    key: 'selectedMonthRaduis',
+    key: 'selectedYearRaduis',
     placeholder: 'selected date(s) border radius',
     type: ESetting.UNITFIELD,
-  },
-  {
-    key: 'language',
-    label: 'Language',
-    type: ESetting.SELECT,
-    defaultValue: 'en',
-    options:[{value:'en',label:'English'},{value:'fr',label:'Frensh' },{value:'es',label:'Spanish'}],
   },
 ];
 

@@ -151,9 +151,7 @@ const SingleDate: FC<ISingleDateProps> = ({
                           : '',
                     }}
                   >
-                    <div
-                      className={` ${data.getTime() === new Date(currentYear, currentMonth, item).getTime() ? 'flex items-center justify-center w-full ' : 'px-2 py-2  flex w-full justify-center'}`}
-                    >
+                    <div className={'px-2 py-2  flex w-full justify-center'}>
                       <p
                         className={` ${data.getTime() === new Date(currentYear, currentMonth, item).getTime() ? ' text-base text-white ' : 'text-base text-gray-500 '}`}
                       >

@@ -56,10 +56,29 @@ export default {
     },
   },
   defaultProps: {
-    name: 'Qodly',
+    readOnly: false,
+    style: {
+      height: '250px',
+      width: '300px',
+      borderRadius: '4px',
+      boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)',
+      padding: '8px',
+      backgroundColor: 'white',
+    },
+    selectedMonthColor: '#228be6',
+
+    selectedRangeColor: 'rgba(34,139,230,.12)',
+    selectedMonthRaduis: '',
+    language: 'en',
+    selectionModes: 'single',
   },
 } as T4DComponentConfig<IMonthPickerProps>;
 
 export interface IMonthPickerProps extends webforms.ComponentProps {
-  name?: string;
+  readOnly: boolean;
+  selectedMonthColor: string;
+  selectedMonthRaduis: any;
+  selectedRangeColor: string;
+  language: 'en' | 'fr' | 'es';
+  selectionModes: 'single' | 'multiple' | 'range';
 }

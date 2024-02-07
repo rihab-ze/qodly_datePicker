@@ -1,25 +1,54 @@
-import { useEnhancedNode } from '@ws-ui/webform-editor';
+import { useRenderer } from '@ws-ui/webform-editor';
 import cn from 'classnames';
 import { FC, useEffect, useState } from 'react';
-import { languages } from '../DatePicker/utils/data';
+import { languages } from '../utils/data';
+import { chunkArray } from '../utils/func';
 
-import { IMonthPickerProps } from './MonthPicker.config';
-import { chunkArray } from './utils/func';
+interface ISingleMonthProps extends webforms.ComponentProps {
+  data: Date;
+  onValueChange: (value: Date) => void;
+  readOnly: boolean;
+  selectedMonthColor: string;
+  selectedMonthRaduis: string;
+  language: string;
+}
 
-const MonthPicker: FC<IMonthPickerProps> = ({
+const SingleMonth: FC<ISingleMonthProps> = ({
+  data,
+  readOnly,
   selectedMonthColor,
   selectedMonthRaduis,
+  onValueChange,
   language,
   style,
   className,
   classNames = [],
 }) => {
-  const {
-    connectors: { connect },
-  } = useEnhancedNode();
+  const { connect } = useRenderer();
+  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const [lang, setLang] = useState<string>(language);
   const selectedLanguage = languages[lang as keyof typeof languages];
-  const currentYear = new Date().getFullYear();
+
+  const handleSelection = (item: string) => {
+    if (readOnly) {
+      return;
+    } else {
+      data = new Date(currentYear, selectedLanguage.months.indexOf(item));
+      onValueChange(data);
+    }
+  };
+  const isMonthEqual = (value: string) => {
+    if (
+      new Date(data).getFullYear() === currentYear &&
+      new Date(data).getMonth() === selectedLanguage.months.indexOf(value)
+    )
+      return true;
+    else false;
+  };
+
+  useEffect(() => {
+    setCurrentYear(data.getFullYear());
+  }, [data]);
 
   useEffect(() => {
     setLang(language);
@@ -31,6 +60,9 @@ const MonthPicker: FC<IMonthPickerProps> = ({
           <button
             aria-label="calendar backward"
             className="focus:text-gray-400 hover:text-gray-400 text-gray-800 dark:text-gray-100 mr-3"
+            onClick={() => {
+              setCurrentYear((prev) => prev - 1);
+            }}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -54,6 +86,9 @@ const MonthPicker: FC<IMonthPickerProps> = ({
           <button
             aria-label="calendar forward"
             className="focus:text-gray-400 hover:text-gray-400 ml-3 text-gray-800 dark:text-gray-100"
+            onClick={() => {
+              setCurrentYear((prev) => prev + 1);
+            }}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -74,24 +109,24 @@ const MonthPicker: FC<IMonthPickerProps> = ({
         </div>
       </div>
       <div className="flex items-center justify-between pt-6 ">
-        <table className="w-full">
+        <table
+          className={`${readOnly ? 'cursor-not-allowed w-full border-separate' : 'cursor-pointer w-full border-separate'}`}
+        >
           <thead>
             {chunkArray(selectedLanguage?.months).map((row, rowIndex) => (
               <tr>
                 {row.map((item) => (
                   <th
                     key={rowIndex}
+                    onClick={() => handleSelection(item)}
                     style={{
-                      backgroundColor:
-                        item === selectedLanguage?.months[0] ? selectedMonthColor : '',
-                      borderRadius: item === selectedLanguage?.months[0] ? selectedMonthRaduis : '',
+                      backgroundColor: isMonthEqual(item) ? selectedMonthColor : '',
+                      borderRadius: isMonthEqual(item) ? selectedMonthRaduis : '',
                     }}
                   >
-                    <div
-                      className={` ${item === selectedLanguage?.months[0] ? 'flex items-center justify-center w-full ' : 'px-2 py-2  flex w-full justify-center'}`}
-                    >
+                    <div className={'px-2 py-2  flex w-full justify-center'}>
                       <p
-                        className={` ${item === selectedLanguage?.months[0] ? ' text-base text-white  font-normal' : 'text-base font-normal text-gray-600 '}`}
+                        className={` ${isMonthEqual(item) ? ' text-base text-white  font-normal' : 'text-base font-normal text-gray-600 '}`}
                       >
                         {item}
                       </p>
@@ -107,4 +142,4 @@ const MonthPicker: FC<IMonthPickerProps> = ({
   );
 };
 
-export default MonthPicker;
+export default SingleMonth;

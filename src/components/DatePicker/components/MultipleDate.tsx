@@ -48,14 +48,19 @@ const MultipleDate: FC<IMultipleDateProps> = ({
     }
   };
   const handleSelection = (item: number) => {
-    // if (readOnly) return;
+    if (readOnly) return;
     if (
       selectedDates.some(
         (date) => new Date(date).getTime() === new Date(currentYear, currentMonth, item).getTime(),
-      ) ||
-      readOnly
+      )
     )
-      return;
+      setSelectedDates((prev) =>
+        prev.filter(
+          (value) =>
+            new Date(value).getTime() !==
+            new Date(new Date(currentYear, currentMonth, item)).getTime(),
+        ),
+      );
     else {
       setSelectedDates((prevData) => [...prevData, new Date(currentYear, currentMonth, item)]);
     }
@@ -163,9 +168,7 @@ const MultipleDate: FC<IMultipleDateProps> = ({
                         : '',
                     }}
                   >
-                    <div
-                      className={` ${selectedDates.some((date) => new Date(date).getTime() === new Date(currentYear, currentMonth, item).getTime()) ? 'flex items-center justify-center w-full' : 'px-2 py-2 flex w-full justify-center'}`}
-                    >
+                    <div className={'px-2 py-2 flex w-full justify-center'}>
                       <p
                         className={` ${selectedDates.some((date) => new Date(date).getTime() === new Date(currentYear, currentMonth, item).getTime()) ? ' text-base text-white ' : 'text-base text-gray-500 '}`}
                       >
