@@ -63,6 +63,19 @@ const RangeDate: FC<IRangeDateProps> = ({
           const modifTest2 = [...selectedDates, new Date(currentYear, currentMonth, item)];
           setSelectedDates(modifTest2);
           break;
+        case selectedDates.some(
+          (date) =>
+            new Date(date).getTime() === new Date(currentYear, currentMonth, item).getTime(),
+        ):
+          setSelectedDates((prev) =>
+            prev.filter(
+              (value) =>
+                new Date(value).getTime() !==
+                new Date(new Date(currentYear, currentMonth, item)).getTime(),
+            ),
+          );
+          break;
+
         default:
           setSelectedDates([new Date(currentYear, currentMonth, item)]);
           break;
@@ -179,9 +192,7 @@ const RangeDate: FC<IRangeDateProps> = ({
                         : '',
                     }}
                   >
-                    <div
-                      className={` ${selectedDates.some((date) => new Date(date).getTime() === new Date(currentYear, currentMonth, item).getTime()) || (new Date(selectedDates[0]).getDate() < item && item < new Date(selectedDates[1]).getDate()) ? 'flex items-center justify-center w-full  ' : 'px-2 py-2 flex w-full justify-center'}`}
-                    >
+                    <div className={'px-2 py-2 flex w-full justify-center'}>
                       <p
                         className={` ${selectedDates.some((date) => new Date(date).getTime() === new Date(currentYear, currentMonth, item).getTime()) ? ' text-base  text-white  ' : 'text-base text-gray-500 '}`}
                       >

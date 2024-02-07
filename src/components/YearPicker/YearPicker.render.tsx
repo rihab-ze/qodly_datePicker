@@ -2,17 +2,16 @@ import { useRenderer, useSources } from '@ws-ui/webform-editor';
 import cn from 'classnames';
 import { FC, useEffect, useState } from 'react';
 
-import { IMonthPickerProps } from './MonthPicker.config';
-import MultipleMonth from './components/MultipleMonth';
-import RangeMonth from './components/RangeMonth';
-import SingleMonth from './components/SingleMonth';
+import { IYearPickerProps } from './YearPicker.config';
+import MultipleMonth from './components/MultipleYear';
+import RangeMonth from './components/RangeYear';
+import SingleMonth from './components/SingleYear';
 
-const MonthPicker: FC<IMonthPickerProps> = ({
+const YearPicker: FC<IYearPickerProps> = ({
   readOnly,
-  selectedMonthColor,
-  selectedMonthRaduis,
+  selectedYearColor,
+  selectedYearRaduis,
   selectedRangeColor,
-  language,
   selectionModes,
   style,
   className,
@@ -21,7 +20,6 @@ const MonthPicker: FC<IMonthPickerProps> = ({
   const { connect } = useRenderer();
   const [value, setValue] = useState<Date>(new Date());
   const [val, setVal] = useState<Array<Date>>([]);
-
   const {
     sources: { datasource: ds },
   } = useSources();
@@ -47,40 +45,36 @@ const MonthPicker: FC<IMonthPickerProps> = ({
   const handleValueChange = (newValue: Date | Array<Date>) => {
     ds.setValue(null, newValue);
   };
-
   return (
     <div ref={connect} style={style} className={cn(className, classNames)}>
       {selectionModes === 'multiple' ? (
         <MultipleMonth
           readOnly={readOnly}
-          selectedMonthRaduis={selectedMonthRaduis}
-          selectedMonthColor={selectedMonthColor}
+          selectedYearRaduis={selectedYearRaduis}
+          selectedYearColor={selectedYearColor}
           onValueChange={handleValueChange}
           data={val}
-          language={language}
         />
       ) : selectionModes === 'range' ? (
         <RangeMonth
           readOnly={readOnly}
-          selectedMonthRaduis={selectedMonthRaduis}
-          selectedMonthColor={selectedMonthColor}
+          selectedYearRaduis={selectedYearRaduis}
+          selectedYearColor={selectedYearColor}
           onValueChange={handleValueChange}
           data={val}
           selectedRangeColor={selectedRangeColor}
-          language={language}
         />
       ) : (
         <SingleMonth
           readOnly={readOnly}
-          selectedMonthRaduis={selectedMonthRaduis}
-          selectedMonthColor={selectedMonthColor}
+          selectedYearRaduis={selectedYearRaduis}
+          selectedYearColor={selectedYearColor}
           onValueChange={handleValueChange}
           data={value}
-          language={language}
         />
       )}
     </div>
   );
 };
 
-export default MonthPicker;
+export default YearPicker;

@@ -1,15 +1,13 @@
 import { useEnhancedNode } from '@ws-ui/webform-editor';
 import cn from 'classnames';
-import { FC, useEffect, useState } from 'react';
-import { languages } from '../DatePicker/utils/data';
-
-import { IMonthPickerProps } from './MonthPicker.config';
+import { FC } from 'react';
 import { chunkArray } from './utils/func';
 
-const MonthPicker: FC<IMonthPickerProps> = ({
-  selectedMonthColor,
-  selectedMonthRaduis,
-  language,
+import { IYearPickerProps } from './YearPicker.config';
+
+const YearPicker: FC<IYearPickerProps> = ({
+  selectedYearColor,
+  selectedYearRaduis,
   style,
   className,
   classNames = [],
@@ -17,13 +15,12 @@ const MonthPicker: FC<IMonthPickerProps> = ({
   const {
     connectors: { connect },
   } = useEnhancedNode();
-  const [lang, setLang] = useState<string>(language);
-  const selectedLanguage = languages[lang as keyof typeof languages];
-  const currentYear = new Date().getFullYear();
+  const getDecadeYears = () => {
+    const startYear = Math.floor(new Date().getFullYear() / 10) * 10;
+    const endYear = startYear + 9;
+    return [startYear, endYear];
+  };
 
-  useEffect(() => {
-    setLang(language);
-  }, [language]);
   return (
     <div ref={connect} style={style} className={cn(className, classNames)}>
       <div className="px-4 pt-2 flex items-center justify-center">
@@ -49,7 +46,7 @@ const MonthPicker: FC<IMonthPickerProps> = ({
             </svg>
           </button>
           <span className="focus:outline-none  text-base font-bold  text-gray-800">
-            {currentYear}
+            {getDecadeYears()[0]} - {getDecadeYears()[1]}
           </span>
           <button
             aria-label="calendar forward"
@@ -76,22 +73,21 @@ const MonthPicker: FC<IMonthPickerProps> = ({
       <div className="flex items-center justify-between pt-6 ">
         <table className="w-full">
           <thead>
-            {chunkArray(selectedLanguage?.months).map((row, rowIndex) => (
+            {chunkArray(getDecadeYears()[0], getDecadeYears()[1]).map((row, rowIndex) => (
               <tr>
                 {row.map((item) => (
                   <th
                     key={rowIndex}
                     style={{
-                      backgroundColor:
-                        item === selectedLanguage?.months[0] ? selectedMonthColor : '',
-                      borderRadius: item === selectedLanguage?.months[0] ? selectedMonthRaduis : '',
+                      backgroundColor: item === new Date().getFullYear() ? selectedYearColor : '',
+                      borderRadius: item === new Date().getFullYear() ? selectedYearRaduis : '',
                     }}
                   >
                     <div
-                      className={` ${item === selectedLanguage?.months[0] ? 'flex items-center justify-center w-full ' : 'px-2 py-2  flex w-full justify-center'}`}
+                      className={` ${item === new Date().getFullYear() ? 'flex items-center justify-center w-full ' : 'px-2 py-2  flex w-full justify-center'}`}
                     >
                       <p
-                        className={` ${item === selectedLanguage?.months[0] ? ' text-base text-white  font-normal' : 'text-base font-normal text-gray-600 '}`}
+                        className={` ${item === new Date().getFullYear() ? ' text-base text-white  font-normal' : 'text-base font-normal text-gray-600 '}`}
                       >
                         {item}
                       </p>
@@ -107,4 +103,4 @@ const MonthPicker: FC<IMonthPickerProps> = ({
   );
 };
 
-export default MonthPicker;
+export default YearPicker;

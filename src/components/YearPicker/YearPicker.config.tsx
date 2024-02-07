@@ -2,11 +2,11 @@ import { EComponentKind, T4DComponentConfig } from '@ws-ui/webform-editor';
 import { Settings } from '@ws-ui/webform-editor';
 import { MdOutlineTextSnippet } from 'react-icons/md';
 
-import DatePickerSettings, { BasicSettings } from './DatePicker.settings';
+import YearPickerSettings, { BasicSettings } from './YearPicker.settings';
 
 export default {
   craft: {
-    displayName: 'DatePicker',
+    displayName: 'YearPicker',
     kind: EComponentKind.BASIC,
     props: {
       name: '',
@@ -14,11 +14,11 @@ export default {
       events: [],
     },
     related: {
-      settings: Settings(DatePickerSettings, BasicSettings),
+      settings: Settings(YearPickerSettings, BasicSettings),
     },
   },
   info: {
-    displayName: 'DatePicker',
+    displayName: 'YearPicker',
     exposed: true,
     icon: MdOutlineTextSnippet,
     events: [
@@ -58,26 +58,24 @@ export default {
   defaultProps: {
     readOnly: false,
     style: {
-      height: '350px',
-      width: '350px',
+      height: '250px',
+      width: '300px',
       borderRadius: '4px',
       boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)',
       padding: '8px',
       backgroundColor: 'white',
     },
-    selectedDateColor: '#228be6',
+    selectedYearColor: '#228be6',
     selectedRangeColor: 'rgba(34,139,230,.12)',
-    selectedDateRaduis: '',
-    language: 'en',
+    selectedYearRaduis: '',
     selectionModes: 'single',
   },
-} as T4DComponentConfig<IDatePickerProps>;
+} as T4DComponentConfig<IYearPickerProps>;
 
-export interface IDatePickerProps extends webforms.ComponentProps {
+export interface IYearPickerProps extends webforms.ComponentProps {
   readOnly: boolean;
-  selectedDateColor: string;
-  selectedDateRaduis: any;
+  selectedYearColor: string;
+  selectedYearRaduis: string;
   selectedRangeColor: string;
-  language: 'en' | 'fr' | 'es';
   selectionModes: 'single' | 'multiple' | 'range';
 }
