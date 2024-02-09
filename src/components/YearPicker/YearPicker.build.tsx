@@ -27,7 +27,7 @@ const YearPicker: FC<IYearPickerProps> = ({
         <div className="flex items-center justify-between gap-4">
           <button
             aria-label="calendar backward"
-            className="focus:text-gray-400 hover:text-gray-400 text-gray-800 dark:text-gray-100 mr-3"
+            className={cn('yearPicker-leftIcon', ' text-gray-800 mr-3')}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -45,12 +45,12 @@ const YearPicker: FC<IYearPickerProps> = ({
               <polyline points="15 6 9 12 15 18" />
             </svg>
           </button>
-          <span className="focus:outline-none  text-base font-bold  text-gray-800">
+          <span className={cn('yearPicker-title', '  text-base font-bold  text-gray-800')}>
             {getDecadeYears()[0]} - {getDecadeYears()[1]}
           </span>
           <button
             aria-label="calendar forward"
-            className="focus:text-gray-400 hover:text-gray-400 ml-3 text-gray-800 dark:text-gray-100"
+            className={cn('yearPicker-rightIcon', ' text-gray-800 ml-3')}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -83,11 +83,9 @@ const YearPicker: FC<IYearPickerProps> = ({
                       borderRadius: item === new Date().getFullYear() ? selectedYearRaduis : '',
                     }}
                   >
-                    <div
-                      className={` ${item === new Date().getFullYear() ? 'flex items-center justify-center w-full ' : 'px-2 py-2  flex w-full justify-center'}`}
-                    >
+                    <div className="px-2 py-2  flex w-full justify-center">
                       <p
-                        className={` ${item === new Date().getFullYear() ? ' text-base text-white  font-normal' : 'text-base font-normal text-gray-600 '}`}
+                        className={` ${item === new Date().getFullYear() ? cn('yearPicker-selectedYear', ' text-base text-white  ') : cn('yearPicker-years', 'text-base text-gray-500 ')}`}
                       >
                         {item}
                       </p>

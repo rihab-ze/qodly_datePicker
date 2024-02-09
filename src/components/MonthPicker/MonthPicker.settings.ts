@@ -23,17 +23,17 @@ const commonSettings: TSetting[] = [
   },
   {
     key: 'selectedMonthColor',
-    label: 'selected date(s) color',
+    label: 'Color picker',
     type: ESetting.COLOR_PICKER,
   },
   {
     key: 'selectedRangeColor',
-    label: 'selected date(s) range color',
+    label: 'Color range',
     type: ESetting.COLOR_PICKER,
   },
   {
     key: 'selectedMonthRaduis',
-    placeholder: 'selected date(s) border radius',
+    placeholder: 'selected month(s) border radius',
     type: ESetting.UNITFIELD,
   },
   {
@@ -52,12 +52,15 @@ const Settings: TSetting[] = [
     type: ESetting.GROUP,
     components: commonSettings,
   },
-  ...DEFAULT_SETTINGS,
+  ...load(DEFAULT_SETTINGS).filter('style.overflow', 'background','style.fontSize','style.fontWeight'),
+
+  
 ];
 
 export const BasicSettings: TSetting[] = [
   ...commonSettings,
-  ...load(BASIC_SETTINGS).filter('style.overflow'),
+  ...load(BASIC_SETTINGS).filter('style.overflow', 'background','style.fontSize','style.fontWeight'),
+
 ];
 
 export default Settings;

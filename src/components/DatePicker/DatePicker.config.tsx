@@ -58,7 +58,7 @@ export default {
   defaultProps: {
     readOnly: false,
     style: {
-      height: '350px',
+      height: 'fit-content',
       width: '350px',
       borderRadius: '4px',
       boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)',

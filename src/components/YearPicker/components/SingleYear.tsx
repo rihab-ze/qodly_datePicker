@@ -4,8 +4,8 @@ import { FC, useState, useEffect } from 'react';
 import { chunkArray } from '../utils/func';
 
 interface ISingleYearProps extends webforms.ComponentProps {
-  data: Date;
-  onValueChange: (value: Date) => void;
+  data: number;
+  onValueChange: (value: number) => void;
   readOnly: boolean;
   selectedYearColor: string;
   selectedYearRaduis: string;
@@ -28,12 +28,12 @@ const SingleYear: FC<ISingleYearProps> = ({
     if (readOnly) {
       return;
     } else {
-      data = new Date(item, 0);
-      onValueChange(data);
+      // data = item;
+      onValueChange(item);
     }
   };
-  const isYearEqual = (date: Date, value: number) => {
-    if (new Date(date).getFullYear() === value) return true;
+  const isYearEqual = (date: number, value: number) => {
+    if (date === value) return true;
     else false;
   };
   const getDecadeYears = (year: number) => {
@@ -42,7 +42,7 @@ const SingleYear: FC<ISingleYearProps> = ({
     return [startYear, endYear];
   };
   useEffect(() => {
-    setCurrentYear(new Date(data).getFullYear());
+    setCurrentYear(new Date(data, 0).getFullYear());
   }, [data]);
   return (
     <div ref={connect} style={style} className={cn(className, classNames)}>
@@ -50,7 +50,7 @@ const SingleYear: FC<ISingleYearProps> = ({
         <div className="flex items-center justify-between gap-4">
           <button
             aria-label="calendar backward"
-            className="focus:text-gray-400 hover:text-gray-400 text-gray-800 dark:text-gray-100 mr-3"
+            className={cn('yearPicker-leftIcon', ' text-gray-800 mr-3')}
             onClick={() => {
               setCurrentYear((prev) => prev - 10);
             }}
@@ -71,12 +71,12 @@ const SingleYear: FC<ISingleYearProps> = ({
               <polyline points="15 6 9 12 15 18" />
             </svg>
           </button>
-          <span className="focus:outline-none  text-base font-bold  text-gray-800">
+          <span className={cn('yearPicker-title', '  text-base font-bold  text-gray-800')}>
             {getDecadeYears(currentYear)[0]} - {getDecadeYears(currentYear)[1]}
           </span>
           <button
             aria-label="calendar forward"
-            className="focus:text-gray-400 hover:text-gray-400 ml-3 text-gray-800 dark:text-gray-100"
+            className={cn('yearPicker-rightIcon', ' text-gray-800 ml-3')}
             onClick={() => {
               setCurrentYear((prev) => prev + 10);
             }}
@@ -101,7 +101,7 @@ const SingleYear: FC<ISingleYearProps> = ({
       </div>
       <div className="flex items-center justify-between pt-6 ">
         <table
-          className={`${readOnly ? 'cursor-not-allowed w-full border-separate' : 'cursor-pointer w-full border-separate'}`}
+          className={`${readOnly ? 'cursor-auto w-full border-separate' : 'cursor-pointer w-full border-separate'}`}
         >
           <thead>
             {chunkArray(getDecadeYears(currentYear)[0], getDecadeYears(currentYear)[1]).map(
@@ -120,8 +120,8 @@ const SingleYear: FC<ISingleYearProps> = ({
                         <p
                           className={` ${
                             isYearEqual(data, item)
-                              ? ' text-base text-white  font-normal'
-                              : 'text-base font-normal text-gray-600 '
+                              ? cn('yearPicker-selectedYear', ' text-base text-white  ')
+                              : cn('yearPicker-years', 'text-base text-gray-500 ')
                           }`}
                         >
                           {item}

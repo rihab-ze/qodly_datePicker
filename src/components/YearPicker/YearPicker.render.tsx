@@ -18,8 +18,8 @@ const YearPicker: FC<IYearPickerProps> = ({
   classNames = [],
 }) => {
   const { connect } = useRenderer();
-  const [value, setValue] = useState<Date>(new Date());
-  const [val, setVal] = useState<Array<Date>>([]);
+  const [value, setValue] = useState<number>(new Date().getFullYear());
+  const [val, setVal] = useState<Array<number>>([]);
   const {
     sources: { datasource: ds },
   } = useSources();
@@ -42,7 +42,7 @@ const YearPicker: FC<IYearPickerProps> = ({
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ds]);
-  const handleValueChange = (newValue: Date | Array<Date>) => {
+  const handleValueChange = (newValue: number | Array<number>) => {
     ds.setValue(null, newValue);
   };
   return (

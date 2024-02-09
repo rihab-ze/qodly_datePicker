@@ -65,6 +65,11 @@ const MultipleDate: FC<IMultipleDateProps> = ({
       setSelectedDates((prevData) => [...prevData, new Date(currentYear, currentMonth, item)]);
     }
   };
+  const isDateEqual = (date: Date, item: number) => {
+    if (new Date(date).getTime() === new Date(currentYear, currentMonth, item).getTime())
+      return true;
+    else false;
+  };
 
   useEffect(() => {
     selectedDates.length && onValueChange(selectedDates);
@@ -79,15 +84,15 @@ const MultipleDate: FC<IMultipleDateProps> = ({
   }, [language]);
   return (
     <div ref={connect} style={style} className={cn(className, classNames)}>
-      <div className="px-4 flex items-center justify-between">
-        <span className="focus:outline-none  text-base font-bold text-gray-800">
+      <div className="px-4 pt-2 flex items-center justify-between">
+        <span className={cn('datePicker-title', '  text-base font-bold  text-gray-800')}>
           {selectedLanguage?.months[currentMonth]} {currentYear}
         </span>
         <div className="flex items-center">
           <button
             onClick={prevMonth}
             aria-label="calendar backward"
-            className="focus:text-gray-400 hover:text-gray-400 text-gray-800"
+            className={cn('datePicker-icon', ' text-gray-800')}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -108,7 +113,7 @@ const MultipleDate: FC<IMultipleDateProps> = ({
           <button
             onClick={nextMonth}
             aria-label="calendar forward"
-            className="focus:text-gray-400 hover:text-gray-400 ml-3 text-gray-800"
+            className={cn('datePicker-icon', ' ml-3 text-gray-800')}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -128,14 +133,21 @@ const MultipleDate: FC<IMultipleDateProps> = ({
           </button>
         </div>
       </div>
-      <div className="flex items-center justify-between pt-5 overflow-x-auto">
+      <div className="flex items-center justify-between pt-5 ">
         <table className="w-full border-separate">
           <thead>
             <tr>
               {selectedLanguage?.daysOfWeek.map((day) => (
                 <th>
                   <div className="w-full flex justify-center">
-                    <p className="text-base font-medium text-center text-gray-800 ">{day}</p>
+                    <p
+                      className={cn(
+                        'datePicker-weekDay',
+                        'text-base font-medium text-center text-gray-800',
+                      )}
+                    >
+                      {day}
+                    </p>
                   </div>
                 </th>
               ))}
@@ -143,34 +155,25 @@ const MultipleDate: FC<IMultipleDateProps> = ({
           </thead>
           <tbody>
             {chunkArray(currentYear, currentMonth).map((row, rowIndex) => (
-              <tr
-                className={`${readOnly ? 'cursor-not-allowed' : 'cursor-pointer'}`}
-                key={rowIndex}
-              >
+              <tr className={`${readOnly ? 'cursor-auto' : 'cursor-pointer'}`} key={rowIndex}>
                 {row.map((item, colIndex) => (
                   <td
                     key={colIndex}
                     onClick={() => handleSelection(item)}
                     style={{
                       backgroundColor: selectedDates.some(
-                        (date) =>
-                          new Date(date).getTime() ===
-                            new Date(currentYear, currentMonth, item).getTime() && item != '',
+                        (date) => isDateEqual(date, item) && item != '',
                       )
                         ? selectedDateColor
                         : '',
-                      borderRadius: selectedDates.some(
-                        (date) =>
-                          new Date(date).getTime() ===
-                          new Date(currentYear, currentMonth, item).getTime(),
-                      )
+                      borderRadius: selectedDates.some((date) => isDateEqual(date, item))
                         ? selectedDateRaduis
                         : '',
                     }}
                   >
                     <div className={'px-2 py-2 flex w-full justify-center'}>
                       <p
-                        className={` ${selectedDates.some((date) => new Date(date).getTime() === new Date(currentYear, currentMonth, item).getTime()) ? ' text-base text-white ' : 'text-base text-gray-500 '}`}
+                        className={` ${selectedDates.some((date) => isDateEqual(date, item)) ? cn('datePicker-selectedDay', ' text-base text-white  ') : cn('datePicker-days', 'text-base text-gray-500 ')}`}
                       >
                         {item}
                       </p>
