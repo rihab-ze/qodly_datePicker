@@ -19,4 +19,4 @@ The Date Picker provides users with an intuitive interface to select a precise d
 | ---------- | ---------------- |--------------------- |------------------------------------------------- |
 | single       | Date      |Yes     | Will contain one date|
 | multiple| Array of Dates   |Yes    | Will contaim an array of dates |
-| rn=ange  | Array of Dates     | Yes    | will contain an array of two dates |
+| range  | Array of Dates     | Yes    | will contain an array of two dates |
