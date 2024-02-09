@@ -98,7 +98,7 @@ const RangeMonth: FC<IRangeMonthProps> = ({
         <div className="flex items-center justify-between gap-4">
           <button
             aria-label="calendar backward"
-            className="focus:text-gray-400 hover:text-gray-400 text-gray-800 dark:text-gray-100 mr-3"
+            className={cn('monthPicker-leftIcon', ' text-gray-800 mr-3')}
             onClick={() => {
               setCurrentYear((prev) => prev - 1);
             }}
@@ -119,12 +119,12 @@ const RangeMonth: FC<IRangeMonthProps> = ({
               <polyline points="15 6 9 12 15 18" />
             </svg>
           </button>
-          <span className="focus:outline-none  text-base font-bold  text-gray-800">
+          <span className={cn('monthPicker-title', '  text-base font-bold  text-gray-800')}>
             {currentYear}
           </span>
           <button
             aria-label="calendar forward"
-            className="focus:text-gray-400 hover:text-gray-400 ml-3 text-gray-800 dark:text-gray-100"
+            className={cn('monthPicker-rightIcon', ' text-gray-800 ml-3')}
             onClick={() => {
               setCurrentYear((prev) => prev + 1);
             }}
@@ -149,7 +149,7 @@ const RangeMonth: FC<IRangeMonthProps> = ({
       </div>
       <div className="flex items-center justify-between pt-6 ">
         <table
-          className={`${readOnly ? 'cursor-not-allowed w-full border-separate' : 'cursor-pointer w-full border-separate'}`}
+          className={`${readOnly ? 'cursor-auto w-full border-separate' : 'cursor-pointer w-full border-separate'}`}
         >
           <thead>
             {chunkArray(selectedLanguage?.months).map((row, rowIndex) => (
@@ -179,8 +179,8 @@ const RangeMonth: FC<IRangeMonthProps> = ({
                       <p
                         className={` ${
                           selectedDates.some((date) => isMonthEqual(date, item))
-                            ? ' text-base text-white  font-normal'
-                            : 'text-base font-normal text-gray-600 '
+                            ? cn('monthPicker-selectedMonth', ' text-base text-white  ')
+                            : cn('monthPicker-months', 'text-base text-gray-500 ')
                         }`}
                       >
                         {item}

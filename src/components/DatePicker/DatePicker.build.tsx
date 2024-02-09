@@ -28,14 +28,14 @@ const DatePicker: FC<IDatePickerProps> = ({
 
   return (
     <div ref={connect} style={style} className={cn(className, classNames)}>
-      <div className="px-4 flex items-center justify-between">
-        <span className="focus:outline-none  text-base font-bold dark:text-gray-100 text-gray-800">
+      <div className="px-4 pt-2 flex items-center justify-between">
+        <span className={cn('datePicker-title', '  text-base font-bold  text-gray-800')}>
           {selectedLanguage?.months[currentMonth]} {currentYear}
         </span>
         <div className="flex items-center">
           <button
             aria-label="calendar backward"
-            className="focus:text-gray-400 hover:text-gray-400 text-gray-800 dark:text-gray-100"
+            className={cn('datePicker-icon', ' text-gray-800')}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -55,7 +55,7 @@ const DatePicker: FC<IDatePickerProps> = ({
           </button>
           <button
             aria-label="calendar forward"
-            className="focus:text-gray-400 hover:text-gray-400 ml-3 text-gray-800 dark:text-gray-100"
+            className={cn('datePicker-icon', ' ml-3 text-gray-800')}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -75,14 +75,21 @@ const DatePicker: FC<IDatePickerProps> = ({
           </button>
         </div>
       </div>
-      <div className="flex items-center justify-between pt-12 overflow-x-auto">
+      <div className="flex items-center justify-between pt-5 overflow-x-auto">
         <table className="w-full">
           <thead>
             <tr>
               {selectedLanguage?.daysOfWeek.map((day) => (
                 <th>
                   <div className="w-full flex justify-center">
-                    <p className="text-base font-medium text-center text-gray-800">{day}</p>
+                    <p
+                      className={cn(
+                        'datePicker-weekDay',
+                        'text-base font-medium text-center text-gray-800',
+                      )}
+                    >
+                      {day}
+                    </p>
                   </div>
                 </th>
               ))}
@@ -99,11 +106,9 @@ const DatePicker: FC<IDatePickerProps> = ({
                       borderRadius: item === 1 ? selectedDateRaduis : '',
                     }}
                   >
-                    <div
-                      className={` ${item === 1 ? 'flex items-center justify-center w-full ' : 'px-2 py-2  flex w-full justify-center'}`}
-                    >
+                    <div className={'px-2 py-2  flex w-full justify-center'}>
                       <p
-                        className={` ${item === 1 ? ' text-base text-white  ' : 'text-base text-gray-500 '}`}
+                        className={` ${item === 1 ? cn('datePicker-selectedDay', ' text-base text-white  ') : cn('datePicker-days', 'text-base text-gray-500 ')}`}
                       >
                         {item}
                       </p>

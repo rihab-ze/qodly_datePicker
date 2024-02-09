@@ -27,12 +27,12 @@ const commonSettings: TSetting[] = [
   },
   {
     key: 'selectedDateColor',
-    label: 'selected date(s) color',
+    label: 'Color picker',
     type: ESetting.COLOR_PICKER,
   },
   {
     key: 'selectedRangeColor',
-    label: 'selected date(s) range color',
+    label: 'Color range',
     type: ESetting.COLOR_PICKER,
   },
   {
@@ -56,13 +56,14 @@ const Settings: TSetting[] = [
     type: ESetting.GROUP,
     components: commonSettings,
   },
-  ...load(DEFAULT_SETTINGS).filter('style.overflow', 'background'),
+  ...load(DEFAULT_SETTINGS).filter('style.overflow', 'background','style.fontSize','style.fontWeight'),
 ];
+
 
 
 export const BasicSettings: TSetting[] = [
   ...commonSettings,
-  ...load(BASIC_SETTINGS).filter('style.overflow', 'background'),
+  ...load(BASIC_SETTINGS).filter('style.overflow', 'background','style.fontSize','style.fontWeight'),
 ];
 
 export default Settings;

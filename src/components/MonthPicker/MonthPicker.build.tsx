@@ -30,7 +30,7 @@ const MonthPicker: FC<IMonthPickerProps> = ({
         <div className="flex items-center justify-between gap-4">
           <button
             aria-label="calendar backward"
-            className="focus:text-gray-400 hover:text-gray-400 text-gray-800 dark:text-gray-100 mr-3"
+            className={cn('monthPicker-leftIcon', ' text-gray-800 mr-3')}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -48,12 +48,12 @@ const MonthPicker: FC<IMonthPickerProps> = ({
               <polyline points="15 6 9 12 15 18" />
             </svg>
           </button>
-          <span className="focus:outline-none  text-base font-bold  text-gray-800">
+          <span className={cn('monthPicker-title', '  text-base font-bold  text-gray-800')}>
             {currentYear}
           </span>
           <button
             aria-label="calendar forward"
-            className="focus:text-gray-400 hover:text-gray-400 ml-3 text-gray-800 dark:text-gray-100"
+            className={cn('monthPicker-rightIcon', ' text-gray-800 ml-3')}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -87,11 +87,9 @@ const MonthPicker: FC<IMonthPickerProps> = ({
                       borderRadius: item === selectedLanguage?.months[0] ? selectedMonthRaduis : '',
                     }}
                   >
-                    <div
-                      className={` ${item === selectedLanguage?.months[0] ? 'flex items-center justify-center w-full ' : 'px-2 py-2  flex w-full justify-center'}`}
-                    >
+                    <div className={'px-2 py-2  flex w-full justify-center'}>
                       <p
-                        className={` ${item === selectedLanguage?.months[0] ? ' text-base text-white  font-normal' : 'text-base font-normal text-gray-600 '}`}
+                        className={` ${item === selectedLanguage?.months[0] ? cn('monthPicker-selectedMonth', ' text-base text-white  ') : cn('monthPicker-months', 'text-base text-gray-500 ')}`}
                       >
                         {item}
                       </p>
