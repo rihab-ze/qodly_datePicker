@@ -5,7 +5,7 @@ The Date Picker provides users with an intuitive interface to select a precise d
 ## Getting Started
 
 | Name       | Type          | Default   | Description                                       |
-| ---------- | ---------------- | ------------------------------------------------- |
+| ---------- | ----------------|------------------------ | ------------------------------------------------- |
 | Selection modes       | string      |single     | Defines the selection modes and can be one of the following values: single, multiple and range. The default value is single, which means that the selected elemetent can be single date (month,year).   |
 | Read only| Boolean   |False    | If true, the selection of date (month,year) is  restricted  and cannot be modified. |
 | selected element color  | string     | #228be6    | Sets the color of the selected date(s) (month(s),year(s)). |
@@ -16,7 +16,7 @@ The Date Picker provides users with an intuitive interface to select a precise d
 ### Datasource
 
 | Selection mode       | Type          | Required   | Description                                       |
-| ---------- | ---------------- | ------------------------------------------------- |
+| ---------- | ---------------- |--------------------- |------------------------------------------------- |
 | single       | Date      |Yes     | Will contain one date|
 | multiple| Array of Dates   |Yes    | Will contaim an array of dates |
 | rn=ange  | Array of Dates     | Yes    | will contain an array of two dates |
