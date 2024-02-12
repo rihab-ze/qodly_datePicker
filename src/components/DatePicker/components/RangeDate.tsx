@@ -27,12 +27,12 @@ const RangeDate: FC<IRangeDateProps> = ({
   classNames = [],
 }) => {
   const { connect } = useRenderer();
-  const [selectedDates, setSelectedDates] = useState(data);
-  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
-  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+  const [selectedDates, setSelectedDates] = useState<Date[]>(data);
+  const [lastClick, setLastClick] = useState<Date>();
+  const [currentMonth, setCurrentMonth] = useState<number>(new Date().getMonth());
+  const [currentYear, setCurrentYear] = useState<number>(new Date().getFullYear());
   const [lang, setLang] = useState<string>(language);
   const selectedLanguage = languages[lang as keyof typeof languages];
-
   const prevMonth = () => {
     if (currentMonth > 0) {
       setCurrentMonth((prev) => prev - 1);
@@ -51,37 +51,29 @@ const RangeDate: FC<IRangeDateProps> = ({
   };
 
   const handleSelection = (item: number) => {
-    if (readOnly) {
-      return;
-    } else {
-      switch (true) {
-        case item < new Date(selectedDates[0]).getDate() && selectedDates.length < 2:
-          const modifTest1 = [new Date(currentYear, currentMonth, item), ...selectedDates];
-          setSelectedDates(modifTest1);
-          break;
-        case item > new Date(selectedDates[0]).getDate() && selectedDates.length < 2:
-          const modifTest2 = [...selectedDates, new Date(currentYear, currentMonth, item)];
-          setSelectedDates(modifTest2);
-          break;
-        case selectedDates.some(
-          (date) =>
-            new Date(date).getTime() === new Date(currentYear, currentMonth, item).getTime(),
-        ):
-          setSelectedDates((prev) =>
-            prev.filter(
-              (value) =>
-                new Date(value).getTime() !==
-                new Date(new Date(currentYear, currentMonth, item)).getTime(),
-            ),
-          );
-          break;
-
-        default:
-          setSelectedDates([new Date(currentYear, currentMonth, item)]);
-          break;
+    if (readOnly) return;
+    const clickedDate = new Date(currentYear, currentMonth, item);
+    setLastClick(clickedDate);
+    const prevDate = new Date(selectedDates[0]);
+    if (selectedDates.length < 2) {
+      const isBeforeFirst = clickedDate < prevDate;
+      const isAfterFirst = clickedDate > prevDate;
+      if (isBeforeFirst) {
+        setSelectedDates([clickedDate, ...selectedDates]);
+      } else if (isAfterFirst) {
+        setSelectedDates([...selectedDates, clickedDate]);
+      } else if (selectedDates.some((date) => date.getTime() === clickedDate.getTime())) {
+        setSelectedDates((prevDates) =>
+          prevDates.filter((date) => date.getTime() !== clickedDate.getTime()),
+        );
+      } else {
+        setSelectedDates([clickedDate]);
       }
+    } else {
+      setSelectedDates([clickedDate]);
     }
   };
+
   const isDateEqual = (date: Date, item: number) => {
     if (new Date(date).getTime() === new Date(currentYear, currentMonth, item).getTime())
       return true;
@@ -94,6 +86,8 @@ const RangeDate: FC<IRangeDateProps> = ({
 
   useEffect(() => {
     setSelectedDates(data);
+    setCurrentMonth(lastClick?.getMonth() || new Date(data[0]).getMonth());
+    setCurrentYear(lastClick?.getFullYear() || new Date(data[0]).getFullYear());
   }, [data]);
 
   useEffect(() => {
@@ -155,7 +149,7 @@ const RangeDate: FC<IRangeDateProps> = ({
           <thead>
             <tr>
               {selectedLanguage?.daysOfWeek.map((day) => (
-                <th>
+                <th key={day}>
                   <div className="w-full flex justify-center">
                     <p
                       className={cn(
@@ -175,6 +169,7 @@ const RangeDate: FC<IRangeDateProps> = ({
               <tr className={`${readOnly ? 'cursor-auto' : 'cursor-pointer'}`} key={rowIndex}>
                 {row.map((item, colIndex) => (
                   <td
+                    className="datePicker-day"
                     key={colIndex}
                     onClick={() => handleSelection(item)}
                     style={{

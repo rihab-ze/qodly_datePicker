@@ -25,9 +25,10 @@ const MultipleDate: FC<IMultipleDateProps> = ({
   classNames = [],
 }) => {
   const { connect } = useRenderer();
-  const [selectedDates, setSelectedDates] = useState(data);
-  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
-  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+  const [selectedDates, setSelectedDates] = useState<Date[]>(data);
+  const [lastClick, setLastClick] = useState<Date>();
+  const [currentMonth, setCurrentMonth] = useState<number>(new Date().getMonth());
+  const [currentYear, setCurrentYear] = useState<number>(new Date().getFullYear());
   const [lang, setLang] = useState<string>(language);
   const selectedLanguage = languages[lang as keyof typeof languages];
 
@@ -49,6 +50,7 @@ const MultipleDate: FC<IMultipleDateProps> = ({
   };
   const handleSelection = (item: number) => {
     if (readOnly) return;
+    setLastClick(new Date(currentYear, currentMonth, item));
     if (
       selectedDates.some(
         (date) => new Date(date).getTime() === new Date(currentYear, currentMonth, item).getTime(),
@@ -62,7 +64,11 @@ const MultipleDate: FC<IMultipleDateProps> = ({
         ),
       );
     else {
-      setSelectedDates((prevData) => [...prevData, new Date(currentYear, currentMonth, item)]);
+      setSelectedDates((prevData) =>
+        [...prevData, new Date(currentYear, currentMonth, item)]
+          .map((value) => new Date(value))
+          .sort((a, b) => a.getTime() - b.getTime()),
+      );
     }
   };
   const isDateEqual = (date: Date, item: number) => {
@@ -77,6 +83,8 @@ const MultipleDate: FC<IMultipleDateProps> = ({
 
   useEffect(() => {
     setSelectedDates(data);
+    setCurrentMonth(lastClick?.getMonth() || new Date(data[0]).getMonth());
+    setCurrentYear(lastClick?.getFullYear() || new Date(data[0]).getFullYear());
   }, [data]);
 
   useEffect(() => {
@@ -138,7 +146,7 @@ const MultipleDate: FC<IMultipleDateProps> = ({
           <thead>
             <tr>
               {selectedLanguage?.daysOfWeek.map((day) => (
-                <th>
+                <th key={day}>
                   <div className="w-full flex justify-center">
                     <p
                       className={cn(
