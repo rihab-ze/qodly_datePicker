@@ -86,8 +86,10 @@ const RangeDate: FC<IRangeDateProps> = ({
 
   useEffect(() => {
     setSelectedDates(data);
-    setCurrentMonth(lastClick?.getMonth() || new Date(data[0]).getMonth());
-    setCurrentYear(lastClick?.getFullYear() || new Date(data[0]).getFullYear());
+    setCurrentMonth(lastClick?.getMonth() || new Date(data[0]).getMonth() || new Date().getMonth());
+    setCurrentYear(
+      lastClick?.getFullYear() || new Date(data[0]).getFullYear() || new Date().getFullYear(),
+    );
   }, [data]);
 
   useEffect(() => {
