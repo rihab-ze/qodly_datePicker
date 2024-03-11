@@ -1,6 +1,6 @@
 import { EComponentKind, T4DComponentConfig } from '@ws-ui/webform-editor';
 import { Settings } from '@ws-ui/webform-editor';
-import { MdOutlineTextSnippet } from 'react-icons/md';
+import { BsCalendarMonth } from 'react-icons/bs';
 
 import MonthPickerSettings, { BasicSettings } from './MonthPicker.settings';
 
@@ -20,7 +20,7 @@ export default {
   info: {
     displayName: 'MonthPicker',
     exposed: true,
-    icon: MdOutlineTextSnippet,
+    icon: BsCalendarMonth,
     events: [
       {
         label: 'On Click',

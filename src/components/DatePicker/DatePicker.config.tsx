@@ -1,6 +1,6 @@
 import { EComponentKind, T4DComponentConfig } from '@ws-ui/webform-editor';
 import { Settings } from '@ws-ui/webform-editor';
-import { MdOutlineTextSnippet } from 'react-icons/md';
+import { BsCalendarDate } from 'react-icons/bs';
 
 import DatePickerSettings, { BasicSettings } from './DatePicker.settings';
 
@@ -20,7 +20,7 @@ export default {
   info: {
     displayName: 'DatePicker',
     exposed: true,
-    icon: MdOutlineTextSnippet,
+    icon: BsCalendarDate,
     events: [
       {
         label: 'On Click',
