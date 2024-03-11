@@ -29,7 +29,9 @@ const RangeDate: FC<IRangeDateProps> = ({
   const { connect } = useRenderer();
   const [selectedDates, setSelectedDates] = useState<Date[]>(data);
   const [lastClick, setLastClick] = useState<Date>();
-  const [currentMonth, setCurrentMonth] = useState<number>(new Date().getMonth());
+  const [currentMonth, setCurrentMonth] = useState<number>(
+    new Date(data[0]).getFullYear() || new Date().getMonth(),
+  );
   const [currentYear, setCurrentYear] = useState<number>(new Date().getFullYear());
   const [lang, setLang] = useState<string>(language);
   const selectedLanguage = languages[lang as keyof typeof languages];
@@ -86,9 +88,9 @@ const RangeDate: FC<IRangeDateProps> = ({
 
   useEffect(() => {
     setSelectedDates(data);
-    setCurrentMonth(lastClick?.getMonth() || new Date(data[0]).getMonth() || new Date().getMonth());
+    setCurrentMonth(lastClick?.getMonth() ?? new Date(data[0]).getMonth() ?? new Date().getMonth());
     setCurrentYear(
-      lastClick?.getFullYear() || new Date(data[0]).getFullYear() || new Date().getFullYear(),
+      lastClick?.getFullYear() ?? new Date(data[0]).getFullYear() ?? new Date().getFullYear(),
     );
   }, [data]);
 
