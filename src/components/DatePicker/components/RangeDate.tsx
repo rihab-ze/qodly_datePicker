@@ -27,12 +27,13 @@ const RangeDate: FC<IRangeDateProps> = ({
   classNames = [],
 }) => {
   const { connect } = useRenderer();
-  const [selectedDates, setSelectedDates] = useState<Date[]>(data);
+  const [selectedDates, setSelectedDates] = useState<Date[]>(data.map((e) => new Date(e)));
   const [lastClick, setLastClick] = useState<Date>();
   const [currentMonth, setCurrentMonth] = useState<number>(new Date().getMonth());
   const [currentYear, setCurrentYear] = useState<number>(new Date().getFullYear());
   const [lang, setLang] = useState<string>(language);
   const selectedLanguage = languages[lang as keyof typeof languages];
+
   const prevMonth = () => {
     if (currentMonth > 0) {
       setCurrentMonth((prev) => prev - 1);
@@ -49,6 +50,7 @@ const RangeDate: FC<IRangeDateProps> = ({
       setCurrentMonth(0);
     }
   };
+
   const handleSelection = (item: number) => {
     if (readOnly) return;
     const clickedDate = new Date(currentYear, currentMonth, item);
@@ -61,9 +63,9 @@ const RangeDate: FC<IRangeDateProps> = ({
         setSelectedDates([clickedDate, ...selectedDates]);
       } else if (isAfterFirst) {
         setSelectedDates([...selectedDates, clickedDate]);
-      } else if (selectedDates.some((date) => date.getTime() === clickedDate.getTime())) {
+      } else if (selectedDates.some((date) => new Date(date).getTime() === clickedDate.getTime())) {
         setSelectedDates((prevDates) =>
-          prevDates.filter((date) => date.getTime() !== clickedDate.getTime()),
+          prevDates.filter((date) => new Date(date).getTime() !== clickedDate.getTime()),
         );
       } else {
         setSelectedDates([clickedDate]);
@@ -81,22 +83,34 @@ const RangeDate: FC<IRangeDateProps> = ({
 
   useEffect(() => {
     selectedDates.length && onValueChange(selectedDates);
-  }, [selectedDates]);
+  }, [selectedDates.length]);
 
   useEffect(() => {
-    setSelectedDates(data);
-    setCurrentMonth(
-      lastClick?.getMonth() ?? !isNaN(new Date(data[0])?.getMonth())
-        ? new Date(data[0])?.getMonth()
-        : new Date().getMonth(),
-    );
-    setCurrentYear(
-      lastClick?.getFullYear() ?? !isNaN(new Date(data[0])?.getFullYear())
-        ? new Date(data[0])?.getFullYear()
-        : new Date().getFullYear(),
-    );
+    let ordredData: Date[] = [...data];
+    if (
+      ordredData &&
+      ordredData.length > 1 &&
+      new Date(ordredData[0]).getTime() > new Date(ordredData[1]).getTime()
+    )
+      [ordredData[0], ordredData[1]] = [ordredData[1], ordredData[0]];
+    setSelectedDates(ordredData);
+    if (lastClick) {
+      setCurrentMonth(lastClick.getMonth());
+      setCurrentYear(lastClick.getFullYear());
+    } else {
+      setCurrentMonth(
+        !isNaN(new Date(ordredData[0])?.getMonth())
+          ? new Date(ordredData[0])?.getMonth()
+          : new Date().getMonth(),
+      );
+      setCurrentYear(
+        isNaN(new Date(ordredData[0])?.getFullYear())
+          ? new Date(ordredData[0])?.getFullYear()
+          : new Date().getFullYear(),
+      );
+    }
   }, [data]);
-  console.log(data);
+
   useEffect(() => {
     setLang(language);
   }, [language]);

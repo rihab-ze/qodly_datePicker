@@ -25,7 +25,7 @@ const MultipleDate: FC<IMultipleDateProps> = ({
   classNames = [],
 }) => {
   const { connect } = useRenderer();
-  const [selectedDates, setSelectedDates] = useState<Date[]>(data);
+  const [selectedDates, setSelectedDates] = useState<Date[]>(data.map((e) => new Date(e)));
   const [lastClick, setLastClick] = useState<Date>();
   const [currentMonth, setCurrentMonth] = useState<number>(new Date().getMonth());
   const [currentYear, setCurrentYear] = useState<number>(new Date().getFullYear());
@@ -79,7 +79,7 @@ const MultipleDate: FC<IMultipleDateProps> = ({
 
   useEffect(() => {
     selectedDates.length && onValueChange(selectedDates);
-  }, [selectedDates]);
+  }, [selectedDates.length]);
 
   useEffect(() => {
     setSelectedDates(data);

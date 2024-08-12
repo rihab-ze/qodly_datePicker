@@ -1,4 +1,4 @@
-import { useRenderer, useSources } from '@ws-ui/webform-editor';
+import { useRenderer, useSources, dateTo4DFormat } from '@ws-ui/webform-editor';
 import cn from 'classnames';
 import { FC, useEffect, useState } from 'react';
 // import { monthNames, dayNames } from './months';
@@ -45,8 +45,12 @@ const DatePicker: FC<IDatePickerProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ds]);
 
-  const handleValueChange = (newValue: Date | Array<Date>) => {
+  const handleValueChange = (newValue: Date) => {
     ds.setValue(null, newValue);
+  };
+
+  const handleArrayChange = (newValue: Date[]) => {
+    ds.setValue(null, newValue.map(e=> (e instanceof Date && !isNaN(e.valueOf())) ? dateTo4DFormat(e) : e));
   };
 
   return (
@@ -56,7 +60,7 @@ const DatePicker: FC<IDatePickerProps> = ({
           readOnly={readOnly}
           selectedDateRaduis={selectedDateRaduis}
           selectedDateColor={selectedDateColor}
-          onValueChange={handleValueChange}
+          onValueChange={handleArrayChange}
           data={val}
           language={language}
         />
@@ -65,7 +69,7 @@ const DatePicker: FC<IDatePickerProps> = ({
           readOnly={readOnly}
           selectedDateRaduis={selectedDateRaduis}
           selectedDateColor={selectedDateColor}
-          onValueChange={handleValueChange}
+          onValueChange={handleArrayChange}
           data={val}
           selectedRangeColor={selectedRangeColor}
           language={language}
