@@ -97,17 +97,9 @@ const RangeDate: FC<IRangeDateProps> = ({
     if (lastClick) {
       setCurrentMonth(lastClick.getMonth());
       setCurrentYear(lastClick.getFullYear());
-    } else {
-      setCurrentMonth(
-        !isNaN(new Date(ordredData[0])?.getMonth())
-          ? new Date(ordredData[0])?.getMonth()
-          : new Date().getMonth(),
-      );
-      setCurrentYear(
-        isNaN(new Date(ordredData[0])?.getFullYear())
-          ? new Date(ordredData[0])?.getFullYear()
-          : new Date().getFullYear(),
-      );
+    } else if (!isNaN(new Date(ordredData[0])?.getMonth())) {
+      setCurrentMonth(new Date(ordredData[0])?.getMonth());
+      setCurrentYear(new Date(ordredData[0])?.getFullYear());
     }
   }, [data]);
 
