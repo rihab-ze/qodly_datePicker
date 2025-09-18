@@ -20,11 +20,11 @@ export function initProxy(env: Record<string, string>): Record<string, string | 
     changeOrigin: true,
     configure(proxy) {
       proxy.on('proxyRes', (proxyRes) => {
-        if (proxyRes.headers['Set-Cookie']) {
-          if (Array.isArray(proxyRes.headers['Set-Cookie'])) {
-            proxyRes.headers['Set-Cookie'] = proxyRes.headers['Set-Cookie'].map(sanitizeSetCookie);
+        if (proxyRes.headers['set-cookie']) {
+          if (Array.isArray(proxyRes.headers['set-cookie'])) {
+            proxyRes.headers['set-cookie'] = proxyRes.headers['set-cookie'].map(sanitizeSetCookie);
           } else {
-            proxyRes.headers['Set-Cookie'] = sanitizeSetCookie(proxyRes.headers['Set-Cookie']);
+            proxyRes.headers['set-cookie'] = [sanitizeSetCookie(proxyRes.headers['set-cookie'])];
           }
         }
       });
