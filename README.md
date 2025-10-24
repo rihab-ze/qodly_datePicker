@@ -4,9 +4,9 @@ The Date Picker provides users with an intuitive interface to select a precise d
 
 ## Date and Month Picker component
 
-![datePicker](/datePicker.png)
+![datePicker](public/datePicker.png)
 
-![monthPicker](/monthPicker.png)
+![monthPicker](public/monthPicker.png)
 
 ### Properties
 
@@ -31,15 +31,15 @@ The Date Picker provides users with an intuitive interface to select a precise d
 
 When customizing the appearance of the date picker, you have access to the following classes within the component:
 
-![datecss](/3.png)
+![datecss](public/3.png)
 
 And for the year picker, you have access to the following classes within the component:
 
-![monthcss](/1.png)
+![monthcss](public/1.png)
 
 ## YearPicker component
 
-![yearPicker](/yearPicker.png)
+![yearPicker](public/yearPicker.png)
 
 ### Properties
 
@@ -64,4 +64,4 @@ And for the year picker, you have access to the following classes within the com
 
 When customizing the appearance of the year picker, you have access to the following classes within the component:
 
-![yearcss](/2.png)
+![yearcss](public/2.png)
