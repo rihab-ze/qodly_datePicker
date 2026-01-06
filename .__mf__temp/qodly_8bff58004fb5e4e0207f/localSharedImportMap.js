@@ -23,13 +23,13 @@
           return pkg
         }
       ,
-        "@ws-ui/craftjs-core": async () => {
-          let pkg = await import("__mf__virtual/qodly_8bff58004fb5e4e0207f__prebuild___mf_0_ws_mf_2_ui_mf_1_craftjs_mf_2_core__prebuild__.js")
+        "@ws-ui/shared": async () => {
+          let pkg = await import("__mf__virtual/qodly_8bff58004fb5e4e0207f__prebuild___mf_0_ws_mf_2_ui_mf_1_shared__prebuild__.js")
           return pkg
         }
       ,
-        "@ws-ui/shared": async () => {
-          let pkg = await import("__mf__virtual/qodly_8bff58004fb5e4e0207f__prebuild___mf_0_ws_mf_2_ui_mf_1_shared__prebuild__.js")
+        "@ws-ui/craftjs-core": async () => {
+          let pkg = await import("__mf__virtual/qodly_8bff58004fb5e4e0207f__prebuild___mf_0_ws_mf_2_ui_mf_1_craftjs_mf_2_core__prebuild__.js")
           return pkg
         }
       ,
@@ -126,7 +126,7 @@
         ,
           "@ws-ui/webform-editor": {
             name: "@ws-ui/webform-editor",
-            version: "1.6.10",
+            version: "1.10.2",
             scope: ["default"],
             loaded: false,
             from: "qodly_8bff58004fb5e4e0207f",
@@ -146,7 +146,33 @@
             },
             shareConfig: {
               singleton: true,
-              requiredVersion: "^1.6.10"
+              requiredVersion: "^1.10.2"
+            }
+          }
+        ,
+          "@ws-ui/shared": {
+            name: "@ws-ui/shared",
+            version: "1.10.2",
+            scope: ["default"],
+            loaded: false,
+            from: "qodly_8bff58004fb5e4e0207f",
+            async get () {
+              usedShared["@ws-ui/shared"].loaded = true
+              const {"@ws-ui/shared": pkgDynamicImport} = importMap 
+              const res = await pkgDynamicImport()
+              const exportModule = {...res}
+              // All npm packages pre-built by vite will be converted to esm
+              Object.defineProperty(exportModule, "__esModule", {
+                value: true,
+                enumerable: false
+              })
+              return function () {
+                return exportModule
+              }
+            },
+            shareConfig: {
+              singleton: true,
+              requiredVersion: "^1.10.2"
             }
           }
         ,
@@ -173,32 +199,6 @@
             shareConfig: {
               singleton: true,
               requiredVersion: "^0.2.26"
-            }
-          }
-        ,
-          "@ws-ui/shared": {
-            name: "@ws-ui/shared",
-            version: "1.6.10",
-            scope: ["default"],
-            loaded: false,
-            from: "qodly_8bff58004fb5e4e0207f",
-            async get () {
-              usedShared["@ws-ui/shared"].loaded = true
-              const {"@ws-ui/shared": pkgDynamicImport} = importMap 
-              const res = await pkgDynamicImport()
-              const exportModule = {...res}
-              // All npm packages pre-built by vite will be converted to esm
-              Object.defineProperty(exportModule, "__esModule", {
-                value: true,
-                enumerable: false
-              })
-              return function () {
-                return exportModule
-              }
-            },
-            shareConfig: {
-              singleton: true,
-              requiredVersion: "^1.6.10"
             }
           }
         ,
